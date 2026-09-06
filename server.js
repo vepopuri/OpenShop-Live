@@ -19,7 +19,7 @@ const Database = require('better-sqlite3');
 // (parameterized queries, session-bound authorization, transactional
 // stock/bid validation, and output escaping).
 // ============================================================================
-const SECURE_MODE = false;
+const SECURE_MODE = true;
 
 const PORT = process.env.PORT || 3000;
 const DB_PATH = path.join(__dirname, 'ecommerce.db');
