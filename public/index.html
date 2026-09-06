@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OpenShop Live</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">Open<span>Shop</span> Live</div>
+  <div class="search-box">
+    <input id="searchInput" type="text" placeholder="Search products… (try a ' to test the search endpoint)" />
+    <button id="searchBtn">Search</button>
+  </div>
+  <div class="user-picker">
+    Demo shopper:
+    <select id="userSelect">
+      <option value="1">alice99 (id 1)</option>
+      <option value="2">bobsmith (id 2)</option>
+      <option value="3">carla_v (id 3)</option>
+      <option value="4">deepak.k (id 4)</option>
+      <option value="5">emily_w (id 5)</option>
+    </select>
+  </div>
+  <span id="modeBadge" class="mode-badge">…</span>
+</header>
+
+<main>
+
+  <div class="warning-banner">
+    ⚠️ Educational demo app. <span id="modeExplainer"></span>
+  </div>
+
+  <div class="hero">
+    <div>
+      <h1>⚡ <span class="accent">Live Flash Sales</span> &amp; Auctions</h1>
+      <p>Stock levels update in real time across every connected shopper. Bid on featured items before someone else grabs them — no page reload required.</p>
+    </div>
+    <div class="countdown">
+      <div class="label">Next stock refresh</div>
+      <div class="clock" id="clock">00:05</div>
+    </div>
+  </div>
+
+  <section>
+    <h2><span class="pulse-dot"></span> Flash Sale Inventory</h2>
+    <div class="grid" id="productGrid"></div>
+  </section>
+
+  <section>
+    <h2><span class="pulse-dot"></span> Live Auction</h2>
+    <div class="panel auction-layout">
+      <div>
+        <div class="auction-select">
+          <select id="auctionProductSelect"></select>
+        </div>
+        <div class="stock-label">Current highest bid</div>
+        <div class="highest-bid" id="highestBid">$0.00</div>
+        <div id="highestBidder" style="color:var(--text-dim); font-size:0.85rem;"></div>
+        <form class="bid-form" id="bidForm">
+          <input type="text" id="bidUsername" placeholder="Your handle" value="alice99" />
+          <input type="number" id="bidAmount" placeholder="Bid amount" step="0.01" />
+          <button class="pill" type="submit">Place Bid</button>
+        </form>
+        <div id="bidError" style="color:var(--danger); font-size:0.82rem; margin-top:8px;"></div>
+      </div>
+      <div>
+        <div class="chat-feed" id="chatFeed"></div>
+        <form class="chat-form" id="chatForm">
+          <input class="handle" id="chatHandle" placeholder="handle" value="alice99" />
+          <input class="message" id="chatMessage" placeholder="Say something to other bidders…" />
+          <button class="pill" type="submit">Send</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>🔎 Product Search</h2>
+    <div class="panel">
+      <p style="color:var(--text-dim); font-size:0.85rem; margin-top:0;">
+        Results from <code>/api/search?q=</code>. In vulnerable mode this endpoint concatenates your query directly into
+        a SQL statement — the SQL text sent to the database is shown below for transparency.
+      </p>
+      <pre class="result-box" id="searchResults">Run a search to see results…</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>📦 My Order Details</h2>
+    <div class="panel">
+      <p style="color:var(--text-dim); font-size:0.85rem; margin-top:0;">
+        "Login" as a demo shopper above, then fetch order details by user id over the live socket connection.
+        Try changing the id to view a <em>different</em> shopper's billing profile.
+      </p>
+      <div class="idor-controls">
+        <button class="pill" id="loginBtn">Login as selected shopper</button>
+        <span>user_id:</span>
+        <input type="number" id="orderUserId" value="1" min="1" max="5" />
+        <button class="pill" id="fetchOrderBtn">Get Order Details</button>
+      </div>
+      <pre class="result-box" id="orderResults">No lookup yet…</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>🧾 Live Activity</h2>
+    <div class="toast-log" id="activityLog"></div>
+  </section>
+
+</main>
+
+<footer>OpenShop Live — vulnerable-by-design demo for security research &amp; education only.</footer>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
