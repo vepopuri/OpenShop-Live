@@ -21,7 +21,20 @@ public/
   index.html     Storefront markup (flash sale grid, auction panel, chat, search, IDOR demo)
   app.js         Frontend logic (Socket.io client, rendering, intentionally-unsafe chat sink)
   style.css      Styling
+render.yaml      Render.com deploy config (see Deployment below)
 ```
+
+## Deployment (Render)
+
+This app needs a normal always-on Node process with a writable disk — it will **not** run on a serverless/edge platform (Vercel, Netlify Functions, etc.), because `better-sqlite3` needs a persistent native binary and filesystem, and Socket.io needs a long-lived connection the request/response model of serverless functions can't hold.
+
+To deploy on [Render](https://render.com):
+
+1. Push this repo to GitHub and create a new **Blueprint** in Render pointing at it — it will pick up `render.yaml` automatically (a free-tier web service with a 1GB persistent disk mounted at `/data`).
+2. Render sets `PORT` automatically and `render.yaml` sets `DB_PATH=/data/ecommerce.db` so the SQLite file survives restarts/redeploys instead of living next to the ephemeral app code.
+3. Deploy — Render runs `npm install` then `npm start`, same as local.
+
+`server.js` reads `DB_PATH` from the environment (falling back to `./ecommerce.db` for local dev), so no code changes are needed between environments.
 
 ## The vulnerability toggle
 

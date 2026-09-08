@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: openshop-live
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: DB_PATH
+        value: /data/ecommerce.db
+    disk:
+      name: openshop-data
+      mountPath: /data
+      sizeGB: 1

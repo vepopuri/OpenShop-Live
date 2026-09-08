@@ -22,7 +22,7 @@ const Database = require('better-sqlite3');
 const SECURE_MODE = false;
 
 const PORT = process.env.PORT || 3000;
-const DB_PATH = path.join(__dirname, 'ecommerce.db');
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'ecommerce.db');
 
 const app = express();
 const server = http.createServer(app);
